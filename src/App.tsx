@@ -1,23 +1,16 @@
-import Cheese from "./components/Cheese"
-import Bun from "./components/Bun"
-import Lettuce from './components/Lettuce'
-import Tomato from './components/Tomato'
-import Burger from "./components/Burger"
+import { useState } from 'react'
+
+import Main from './components/Main'
 
 const App = () => {
 
-  const items = [
-    <Bun isUpperPart />,
-    <Lettuce />,
-    <Tomato />,
-    <Cheese />,
-    <Burger />,
-    <Bun />
-  ]
+  const [game, setGame] = useState(false)
 
   return (<>
-    <div className="flex flex-col items-center justify-center h-screen w-full">
-      {items.map(item => item)}
+    <div className="flex flex-col items-center justify-around h-screen w-full">
+      <Main
+        changeGameState={setGame}
+      />
     </div>
   </>)
 }
