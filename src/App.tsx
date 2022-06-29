@@ -1,14 +1,22 @@
+import Cheese from "./components/Cheese"
 import Bun from "./components/Bun"
 import Lettuce from './components/Lettuce'
+import Tomato from './components/Tomato'
+import Burger from "./components/Burger"
 
 const App = () => {
-  return(<>
+
+  const items = [<Bun isUpperPart />,
+                  <Lettuce />,
+                  <Tomato />,
+                  <Cheese />,
+                  <Burger />,
+                  <Bun />
+                ]
+
+  return (<>
     <div className="flex flex-col items-center justify-center h-screen w-full">
-      <Bun isUpperPart />
-      <div className="py-2"></div>
-      <Lettuce />
-      <div className="py-2"></div>
-      <Bun />
+      { items.map(item => item) }    
     </div>
   </>)
 }
