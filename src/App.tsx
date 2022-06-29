@@ -7,10 +7,14 @@ const App = () => {
   const [game, setGame] = useState(false)
 
   return (<>
-    <div className="flex flex-col items-center justify-around h-screen w-full">
-      <Main
-        changeGameState={setGame}
-      />
+    <div className="grid place-items-center h-screen w-full">
+      { game ?
+        'init'
+        :
+        <Main
+          changeGameState={setGame}
+        />
+      }
     </div>
   </>)
 }

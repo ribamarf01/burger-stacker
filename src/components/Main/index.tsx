@@ -27,15 +27,20 @@ const Main: FC<MainProps> = ({ changeGameState }) => {
 
   return (<>
     <div className='flex relative'>
-      <div className='flex flex-col items-center opacity-80 blur-sm'>
+      <div className='flex flex-col items-center opacity-50 blur-sm'>
         {items.map(item => item)}
       </div>
-      <div className='absolute flex flex-col min-h-full items-center justify-around'>
+      <div className='absolute flex flex-col min-h-full items-center justify-center'>
         <div className='relative w-full'>
-          <h1 className='text-purple-neon text-7xl text-center font-extrabold absolute font-title w-full blur'>Burger Stacker</h1>
-          <h1 className='text-purple-neon text-7xl text-center font-extrabold font-title w-full'>Burger Stacker</h1>
+          <h1 className='text-purple-neon text-7xl text-center font-extrabold absolute -inset-1 font-title w-full blur'>Burger Stacker</h1>
+          <h1 className='text-pink-neon text-7xl text-center font-extrabold font-title w-full'>Burger Stacker</h1>
         </div>
-        <button>Play</button>
+        <button
+          onClick={() => initGame()}
+          className='text-xl text-purple-neon text-extrabold border-purple-neon border-2 py-1 px-4 rounded-full hover:text-white hover:bg-purple-neon duration-300 transition-all'
+        >
+          Play
+        </button>
       </div>
       
     </div>
