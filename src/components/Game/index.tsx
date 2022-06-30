@@ -13,7 +13,7 @@ interface TimerInfo {
   seconds: string
 }
 
-const STARTER_TIMER = 5
+const STARTER_TIMER = 30
 const STARTER_TIMER_INFO: TimerInfo = {
   minutes: "0",
   seconds: "00"
@@ -32,6 +32,14 @@ const Game = () => {
 
   const pushBurgerComponent = (component: JSX.Element) => {
     setActualBurger([...actualBurger, component])
+  }
+
+  const resetGame = () => {
+    setGame(true)
+    setPoints(0)
+    setTimer(STARTER_TIMER)
+    setActualBurger([])
+    setLastBurger([])
   }
 
   useEffect(() => {
@@ -77,7 +85,18 @@ const Game = () => {
             <h1 className='text-center text-3xl font-common flex-1'>You're mounting the first burger!</h1> 
           } {/* Last Burger or none */}
 
-          <MountedBurger ingredients={actualBurger} /> {/* Burger that you're mounting */}
+          { game ? 
+            <MountedBurger ingredients={actualBurger} /> 
+            :
+            <div className='flex-1 flex flex-col items-center gap-4'>
+              <h1 className='text-center text-3xl font-common flex-1'>Game over! 😢</h1>
+              <button
+                onClick={() => resetGame()}
+                className='text-xl text-purple-neon text-extrabold border-purple-neon border-2 py-1 px-4 rounded-full hover:text-white hover:bg-purple-neon duration-300 transition-all'
+              >Try again?</button>
+              
+            </div> 
+          } {/* Burger that you're mounting */}
           
           <h1 className='text-center text-3xl font-common flex-1'>Next ingredient:</h1>
         </div>
