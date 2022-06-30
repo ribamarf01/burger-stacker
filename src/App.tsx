@@ -1,15 +1,16 @@
 import { useState } from 'react'
 
 import Main from './components/Main'
+import Game from './components/Game'
 
 const App = () => {
 
-  const [game, setGame] = useState(false)
+  const [game, setGame] = useState(true)
 
   return (<>
     <div className="grid place-items-center h-screen w-full">
       { game ?
-        'init'
+        <Game />
         :
         <Main
           changeGameState={setGame}
