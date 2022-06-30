@@ -7,7 +7,7 @@ interface BurgerProps {
 const MountedBurger: FC<BurgerProps> = ({ ingredients }) => {
 
   return (<div className='flex flex-col items-center flex-1'>
-    { ingredients.map(ingredient => ingredient) }
+    { ingredients.map((ingredient, index) => <div key={index}>{ ingredient }</div> ) }
   </div>)
 
 }

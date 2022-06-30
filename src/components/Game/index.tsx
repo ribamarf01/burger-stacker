@@ -14,10 +14,19 @@ interface TimerInfo {
 }
 
 const STARTER_TIMER = 30
+
 const STARTER_TIMER_INFO: TimerInfo = {
   minutes: "0",
   seconds: "00"
 }
+
+const BURGER_PARTS = [
+  <Bun />,
+  <Lettuce />,
+  <Tomato />,
+  <Cheese />,
+  <Burger />
+]
 
 const Game = () => {
 
@@ -27,11 +36,63 @@ const Game = () => {
   const [game, setGame] = useState(true)
   const [points, setPoints] = useState(0)
 
+  const [gameBurgerIndex, setGameBurgerIndex] = useState(0)
+  const [actualIngredient, setActualIngredient] = useState('')
+  const [gameBurger, setGameBurger] = useState<JSX.Element[]>([])
   const [actualBurger, setActualBurger] = useState<JSX.Element[]>([])
   const [lastBurger, setLastBurger] = useState<JSX.Element[]>([])
 
+  const randomBurger = () => {
+    const burgerSize = Math.floor(Math.random()*8)+1
+
+    const burger: JSX.Element[] = []
+    burger.push(<Bun isUpperPart />)
+
+    for(let i = 0; i < burgerSize; i++) {
+      const burgerPart: JSX.Element = BURGER_PARTS[Math.floor(Math.random() * BURGER_PARTS.length)]
+
+      burger.push(burgerPart)
+    }
+
+    burger.push(<Bun />)
+
+    setGameBurger(burger)
+    setActualIngredient('Bun')
+
+  }
+  
   const pushBurgerComponent = (component: JSX.Element) => {
-    setActualBurger([...actualBurger, component])
+
+    if(component.type === gameBurger[gameBurgerIndex].type) {
+      setActualBurger([...actualBurger, component])
+      setGameBurgerIndex(gameBurgerIndex + 1)
+      setPoints(points + 100)
+      burgerIngredient(gameBurger[gameBurgerIndex + 1])
+    }
+
+  }
+
+  const burgerIngredient = (component: JSX.Element) => {
+    switch(component.type) {
+      case Bun:
+        setActualIngredient('Bun')
+        break
+      case Lettuce:
+        setActualIngredient('Lettuce')
+        break
+      case Tomato:
+        setActualIngredient('Tomato')
+        break
+      case Cheese:
+        setActualIngredient('Cheese')
+        break
+      case Burger: 
+        setActualIngredient('Burger')
+        break
+      default:
+        break
+    }
+        
   }
 
   const resetGame = () => {
@@ -43,6 +104,11 @@ const Game = () => {
   }
 
   useEffect(() => {
+    randomBurger()
+  }, [])
+
+  useEffect(() => {
+
     const timerInterval = setInterval(() => {
 
       if (timer > 0) {
@@ -89,7 +155,7 @@ const Game = () => {
             <MountedBurger ingredients={actualBurger} /> 
             :
             <div className='flex-1 flex flex-col items-center gap-4'>
-              <h1 className='text-center text-3xl font-common flex-1'>Game over! 😢</h1>
+              <h1 className='text-center text-3xl font-common flex-1'>😢 Game over!</h1>
               <button
                 onClick={() => resetGame()}
                 className='text-xl text-purple-neon text-extrabold border-purple-neon border-2 py-1 px-4 rounded-full hover:text-white hover:bg-purple-neon duration-300 transition-all'
@@ -98,7 +164,7 @@ const Game = () => {
             </div> 
           } {/* Burger that you're mounting */}
           
-          <h1 className='text-center text-3xl font-common flex-1'>Next ingredient:</h1>
+          <h1 className='text-center text-3xl font-common flex-1'>Next ingredient: { actualIngredient }</h1>
         </div>
       </main>
 
