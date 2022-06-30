@@ -6,7 +6,7 @@ import Lettuce from '../Lettuce'
 import Tomato from '../Tomato'
 import Burger from "../Burger"
 
-import MountedBurger from '../MountedBurger'
+import MountedBurger from './MountedBurger'
 
 interface TimerInfo {
   minutes: string,
@@ -26,6 +26,13 @@ const Game = () => {
 
   const [game, setGame] = useState(true)
   const [points, setPoints] = useState(0)
+
+  const [actualBurger, setActualBurger] = useState<JSX.Element[]>([])
+  const [lastBurger, setLastBurger] = useState<JSX.Element[]>([])
+
+  const pushBurgerComponent = (component: JSX.Element) => {
+    setActualBurger([...actualBurger, component])
+  }
 
   useEffect(() => {
     const timerInterval = setInterval(() => {
@@ -51,32 +58,40 @@ const Game = () => {
     return () => clearInterval(timerInterval)
   }, [timer])
 
-  const items = [
-    <Bun isUpperPart />,
-    <Lettuce />,
-    <Tomato />,
-    <Cheese />,
-    <Burger />,
-    <Bun />
-  ]
-
   return (<>
-    <div className="h-screen w-full flex flex-col items-center justify-between">
+    <div className="h-screen w-full flex flex-col items-center justify-between p-4">
       <header className="flex flex-col items-center font-common">
         <h1 className="text-3xl">Timer</h1>
         <span className="text-2xl">{`${timerInfo.minutes}:${timerInfo.seconds}`}</span>
+        <h1 className='text-center text-3xl font-common my-4'>Points: {points}</h1>
       </header>
 
       <main className='flex flex-col w-full'>
-        <h1 className='text-center text-3xl font-common my-4'>Points: {points}</h1>
-        <div className='flex flex-row justify-around w-full'>
-          <MountedBurger ingredients={items} />
+        <div className='flex flex-row justify-around items-center w-full'>
+          { lastBurger.length > 0 ? 
+            (<div className='flex-1'>
+              <h1 className='text-center text-3xl font-common'>Last Burguer</h1>
+              <MountedBurger ingredients={lastBurger} /> 
+            </div>)
+            : 
+            <h1 className='text-center text-3xl font-common flex-1'>You're mounting the first burger!</h1> 
+          } {/* Last Burger or none */}
+
+          <MountedBurger ingredients={actualBurger} /> {/* Burger that you're mounting */}
+          
+          <h1 className='text-center text-3xl font-common flex-1'>Next ingredient:</h1>
         </div>
       </main>
 
-      <footer>pesinho</footer>
+      <footer className='flex justify-around w-full'>
+        <button onClick={() => pushBurgerComponent(actualBurger.length > 0 ? <Bun /> : <Bun isUpperPart />)} className='flex-1 border-black border-2 mx-6 py-4 text-white bg-bun'>Bun</button>
+        <button onClick={() => pushBurgerComponent(<Lettuce />)} className='flex-1 border-black border-2 mx-6 py-4 text-white bg-lettuce'>Lettuce</button>
+        <button onClick={() => pushBurgerComponent(<Burger />)} className='flex-1 border-black border-2 mx-6 py-4 text-white bg-burger'>Burger</button>
+        <button onClick={() => pushBurgerComponent(<Cheese />)} className='flex-1 border-black border-2 mx-6 py-4 text-white bg-cheese'>Cheese</button>
+        <button onClick={() => pushBurgerComponent(<Tomato />)} className='flex-1 border-black border-2 mx-6 py-4 text-white bg-tomato'>Tomato</button>
+      </footer>
     </div>
-  </>)
+  </>) 
 
 }
 
