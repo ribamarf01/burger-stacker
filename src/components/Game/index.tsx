@@ -63,7 +63,7 @@ const Game = () => {
   
   const pushBurgerComponent = (component: JSX.Element) => {
 
-    if(component.type === gameBurger[gameBurgerIndex].type) {
+    if(component.type === gameBurger[gameBurgerIndex].type && game) {
       
       setActualBurger([...actualBurger, component])
       setGameBurgerIndex(gameBurgerIndex => {
@@ -83,9 +83,10 @@ const Game = () => {
 
   const nextBurger = () => {
     randomBurger()
-    setLastBurger(actualBurger)
+    setLastBurger([...actualBurger, <Bun />])
     setActualBurger([])
     setGameBurgerIndex(0)
+    setGame(true)
   }
 
   const burgerIngredient = (component: JSX.Element) => {
@@ -117,6 +118,8 @@ const Game = () => {
     setTimer(STARTER_TIMER)
     setActualBurger([])
     setLastBurger([])
+    setGameBurgerIndex(0)
+    randomBurger()
   }
 
   useEffect(() => {
