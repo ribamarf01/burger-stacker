@@ -64,12 +64,28 @@ const Game = () => {
   const pushBurgerComponent = (component: JSX.Element) => {
 
     if(component.type === gameBurger[gameBurgerIndex].type) {
+      
       setActualBurger([...actualBurger, component])
-      setGameBurgerIndex(gameBurgerIndex + 1)
-      setPoints(points + 100)
+      setGameBurgerIndex(gameBurgerIndex => {
+        if(gameBurger.length === gameBurgerIndex + 1) {
+          nextBurger()
+          return 0
+        }
+        return gameBurgerIndex + 1
+      })
+
+      setPoints(points + 100)    
+
       burgerIngredient(gameBurger[gameBurgerIndex + 1])
     }
 
+  }
+
+  const nextBurger = () => {
+    randomBurger()
+    setLastBurger(actualBurger)
+    setActualBurger([])
+    setGameBurgerIndex(0)
   }
 
   const burgerIngredient = (component: JSX.Element) => {
