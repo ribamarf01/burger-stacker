@@ -5,7 +5,7 @@ import Game from './components/Game'
 
 const App = () => {
 
-  const [game, setGame] = useState(true)
+  const [game, setGame] = useState(false)
 
   return (<>
     <div className="grid place-items-center h-screen w-full">
